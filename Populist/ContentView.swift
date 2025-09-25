@@ -217,10 +217,14 @@ struct BillCardView: View {
     @State private var selectedExpertise: String? = nil
     @State private var selectedExperienceLevel = "Employment"
     @State private var showBillDetail = false
-    @State private var showShareSheet = false
+    @State private var showPersonalizedImpact = false
     
     let expertiseOptions = ["All", "Healthcare", "Education", "Technology", "Finance"]
     let experienceLevels = ["Employment", "Education", "Hobby"]
+    
+    var shareText: String {
+        "Check out this bill: \(bill.number) - \(bill.title)\n\nLatest Action: \(bill.latestActionText)\nDate: \(bill.actionDate.formatted(date: .abbreviated, time: .omitted))\n\nShared via Pop-u-list"
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -265,7 +269,7 @@ struct BillCardView: View {
                 }
                 
                 // Action Buttons
-                Button(action: { showAISummary.toggle() }) {
+                Button(action: { showPersonalizedImpact = true }) {
                     HStack {
                         Image(systemName: "sparkles")
                         Text("How does this affect me?")
@@ -451,14 +455,16 @@ struct BillCardView: View {
         .onTapGesture {
             showBillDetail = true
         }
-        .onLongPressGesture {
-            showShareSheet = true
+        .contextMenu {
+            ShareLink(item: shareText) {
+                Label("Share Bill", systemImage: "square.and.arrow.up")
+            }
         }
         .sheet(isPresented: $showBillDetail) {
             BillDetailView(bill: bill)
         }
-        .sheet(isPresented: $showShareSheet) {
-            ShareSheetView(bill: bill)
+        .sheet(isPresented: $showPersonalizedImpact) {
+            PersonalizedImpactView(bill: bill, selectedExpertise: selectedExpertise, selectedExperienceLevel: selectedExperienceLevel)
         }
     }
 }
@@ -466,6 +472,7 @@ struct BillCardView: View {
 // MARK: - Bill Detail View
 struct BillDetailView: View {
     let bill: Bill
+    @Environment(\.presentationMode) var presentationMode
     @State private var commentText = ""
     @State private var comments = [
         ("User123", "This bill would really help small businesses in my area.", Date()),
@@ -478,6 +485,10 @@ struct BillDetailView: View {
         ("S. 321", "Environmental Protection Enhancement", Date(), Color.green, 189, 32),
         ("H.R. 555", "Innovation and Technology Act", Date(), Color.cyan, 156, 28)
     ]
+    
+    var shareText: String {
+        "Check out this bill: \(bill.number) - \(bill.title)\n\nLatest Action: \(bill.latestActionText)\nDate: \(bill.actionDate.formatted(date: .abbreviated, time: .omitted))\n\nShared via Pop-u-list"
+    }
     
     var body: some View {
         NavigationView {
@@ -518,7 +529,7 @@ struct BillDetailView: View {
                         .padding(.horizontal)
                         
                         // Share Button
-                        Button(action: {}) {
+                        ShareLink(item: shareText) {
                             Label("Share this Bill", systemImage: "square.and.arrow.up")
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -629,79 +640,187 @@ struct BillDetailView: View {
                 }
             }
             .navigationBarTitle("Bill Details", displayMode: .inline)
-            .navigationBarItems(trailing: Button("Done") {})
-        }
-    }
-}
-
-// MARK: - Share Sheet View
-struct ShareSheetView: View {
-    let bill: Bill
-    @Environment(\.presentationMode) var presentationMode
-    
-    var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                Text("Share Bill")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(bill.number)
-                        .font(.headline)
-                    Text(bill.title)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
-                
-                VStack(spacing: 12) {
-                    ShareButton(icon: "message.fill", title: "Message", color: .green)
-                    ShareButton(icon: "envelope.fill", title: "Email", color: .blue)
-                    ShareButton(icon: "link", title: "Copy Link", color: .orange)
-                    ShareButton(icon: "square.and.arrow.up", title: "More Options", color: .gray)
-                }
-                
-                Spacer()
-            }
-            .padding()
-            .navigationBarItems(trailing: Button("Cancel") {
+            .navigationBarItems(trailing: Button("Done") {
                 presentationMode.wrappedValue.dismiss()
             })
         }
     }
 }
 
-struct ShareButton: View {
-    let icon: String
-    let title: String
-    let color: Color
+// MARK: - Personalized Impact View
+struct PersonalizedImpactView: View {
+    let bill: Bill
+    let selectedExpertise: String?
+    let selectedExperienceLevel: String
+    @Environment(\.presentationMode) var presentationMode
+    
+    var personalizedImpact: String {
+        let expertise = selectedExpertise ?? "General"
+        let level = selectedExperienceLevel
+        
+        switch (bill.topic, expertise, level) {
+        case ("Healthcare", "Healthcare", "Employment"):
+            return "As a healthcare professional, this bill directly impacts your field. The Affordable Healthcare Expansion Act could create new job opportunities in healthcare administration, expand patient care services, and potentially increase demand for healthcare workers. You might see changes in insurance coverage requirements, new training programs, or expanded roles for healthcare professionals."
+            
+        case ("Healthcare", "Technology", "Employment"):
+            return "In your tech role, this healthcare bill could create opportunities for digital health solutions, electronic health records systems, and telemedicine platforms. The expansion of healthcare services will likely require new software, data management systems, and patient portal technologies."
+            
+        case ("Environment", "Environment", "Employment"):
+            return "Your environmental expertise makes you uniquely qualified to understand this Climate Action bill's implications. This could lead to new green job opportunities, environmental consulting roles, and positions in renewable energy sectors. Your knowledge of environmental regulations and sustainability practices will be highly valuable."
+            
+        case ("Environment", "Technology", "Employment"):
+            return "As a tech professional, this environmental bill presents opportunities in green technology, carbon tracking software, renewable energy management systems, and environmental data analytics. You could be involved in developing solutions for climate monitoring and sustainable technology."
+            
+        case ("Technology", "Technology", "Employment"):
+            return "This Digital Privacy Protection Act directly affects your tech career. You'll likely see new compliance requirements, privacy-focused development practices, and opportunities in cybersecurity and data protection. Your technical skills will be crucial for implementing privacy-preserving technologies."
+            
+        case ("Education", "Education", "Employment"):
+            return "Your education background makes you well-positioned to understand this Education Reform bill's impact. This could affect curriculum standards, teacher training programs, and educational technology integration. Your expertise in pedagogy and educational systems will be valuable for implementation."
+            
+        case ("Infrastructure", "Technology", "Employment"):
+            return "The Infrastructure Modernization Act could create significant opportunities in smart city technologies, IoT systems, and digital infrastructure. Your tech skills could be applied to traffic management systems, energy grid modernization, and digital connectivity solutions."
+            
+        case (_, "Finance", "Employment"):
+            return "Your financial expertise is crucial for understanding the economic implications of this bill. You'll be able to analyze funding mechanisms, budget impacts, and economic benefits. This could create opportunities in financial planning, budget analysis, or economic consulting related to the bill's implementation."
+            
+        case (_, _, "Education"):
+            return "From an educational perspective, this bill represents an important learning opportunity about policy-making and civic engagement. Understanding how this legislation works can enhance your knowledge of government processes and help you make more informed decisions as a citizen."
+            
+        case (_, _, "Hobby"):
+            return "Your hobby interest in this topic gives you a unique perspective on how this bill might affect your personal interests and community. Whether it's environmental conservation, technology innovation, or social issues, this legislation could impact the activities and causes you care about."
+            
+        default:
+            return "This bill affects various aspects of society, and your background provides valuable perspective on its potential impacts. Consider how changes in this area might influence your community, workplace, or personal interests. Your unique viewpoint contributes to a more comprehensive understanding of the bill's effects."
+        }
+    }
     
     var body: some View {
-        Button(action: {}) {
-            HStack {
-                Image(systemName: icon)
-                    .foregroundColor(color)
-                    .frame(width: 30)
-                Text(title)
-                    .foregroundColor(.primary)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
-                    .font(.caption)
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Header
+                    Rectangle()
+                        .fill(bill.topicColor)
+                        .frame(height: 120)
+                        .overlay(
+                            VStack {
+                                Text("Personalized Impact")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                Text(bill.number)
+                                    .font(.headline)
+                                    .foregroundColor(.white.opacity(0.9))
+                            }
+                        )
+                    
+                    VStack(alignment: .leading, spacing: 16) {
+                        // Bill Title
+                        Text(bill.title)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.horizontal)
+                        
+                        // User Context
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Based on Your Profile")
+                                .font(.headline)
+                                .padding(.horizontal)
+                            
+                            HStack {
+                                Text("Expertise:")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                Text(selectedExpertise ?? "General")
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
+                            .padding(.horizontal)
+                            
+                            HStack {
+                                Text("Experience Level:")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                Text(selectedExperienceLevel)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                Spacer()
+                            }
+                            .padding(.horizontal)
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        
+                        // Personalized Impact
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("How This Affects You")
+                                .font(.headline)
+                                .padding(.horizontal)
+                            
+                            Text(personalizedImpact)
+                                .font(.body)
+                                .lineSpacing(4)
+                                .padding(.horizontal)
+                        }
+                        
+                        // Action Items
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("What You Can Do")
+                                .font(.headline)
+                                .padding(.horizontal)
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                ActionItem(icon: "hand.raised.fill", title: "Cast Your Vote", description: "Share your opinion on this bill")
+                                ActionItem(icon: "heart.fill", title: "Bookmark for Updates", description: "Track this bill's progress")
+                                ActionItem(icon: "bubble.left.fill", title: "Join Discussion", description: "Share your expertise in comments")
+                                ActionItem(icon: "square.and.arrow.up", title: "Share with Others", description: "Help others understand the impact")
+                            }
+                            .padding(.horizontal)
+                        }
+                    }
+                }
             }
-            .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(10)
+            .navigationBarTitle("Personalized Impact", displayMode: .inline)
+            .navigationBarItems(trailing: Button("Done") {
+                presentationMode.wrappedValue.dismiss()
+            })
         }
     }
 }
 
+struct ActionItem: View {
+    let icon: String
+    let title: String
+    let description: String
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .foregroundColor(.blue)
+                .frame(width: 24)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                Text(description)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            
+            Spacer()
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+
 // MARK: - Profile View
 struct ProfileView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var username = "CitizenUser"
     @State private var bio = "Engaged citizen interested in policy and democracy"
     @State private var employmentExpertise = "Technology"
@@ -789,7 +908,9 @@ struct ProfileView: View {
                 .padding(.vertical)
             }
             .navigationBarTitle("Profile", displayMode: .inline)
-            .navigationBarItems(trailing: Button("Done") {})
+            .navigationBarItems(trailing: Button("Done") {
+                presentationMode.wrappedValue.dismiss()
+            })
             .sheet(isPresented: $showBookmarks) {
                 BookmarksView()
             }
@@ -830,6 +951,8 @@ struct ExpertiseSelector: View {
 
 // MARK: - Bookmarks View
 struct BookmarksView: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -867,7 +990,9 @@ struct BookmarksView: View {
                 .padding()
             }
             .navigationBarTitle("Bookmarked Bills", displayMode: .inline)
-            .navigationBarItems(trailing: Button("Done") {})
+            .navigationBarItems(trailing: Button("Done") {
+                presentationMode.wrappedValue.dismiss()
+            })
         }
     }
 }
