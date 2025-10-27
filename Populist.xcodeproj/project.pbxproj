@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A37A6A5A2E8DD636002C1584 /* IDWise in Frameworks */ = {isa = PBXBuildFile; productRef = A37A6A592E8DD636002C1584 /* IDWise */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A32053842E77739A0003D342 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A37A6A5A2E8DD636002C1584 /* IDWise in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = Populist;
 			packageProductDependencies = (
+				A37A6A592E8DD636002C1584 /* IDWise */,
 			);
 			productName = Populist;
 			productReference = A32053762E7773950003D342 /* Populist.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = A320536D2E7773940003D342;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A37A6A582E8DD636002C1584 /* XCRemoteSwiftPackageReference "idwise-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A32053772E7773950003D342 /* Products */;
 			projectDirPath = "";
@@ -402,6 +411,8 @@
 				DEVELOPMENT_TEAM = 7279TDDFK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Populist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -430,6 +441,8 @@
 				DEVELOPMENT_TEAM = 7279TDDFK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Populist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -560,6 +573,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A37A6A582E8DD636002C1584 /* XCRemoteSwiftPackageReference "idwise-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/idwise/idwise-ios-sdk";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A37A6A592E8DD636002C1584 /* IDWise */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A37A6A582E8DD636002C1584 /* XCRemoteSwiftPackageReference "idwise-ios-sdk" */;
+			productName = IDWise;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A320536E2E7773940003D342 /* Project object */;
 }
