@@ -386,11 +386,7 @@ struct MessengerView: View {
                 // Header
                 HStack {
                     Button(action: {
-                        if authState.isLoggedIn {
-                            showingGlobalForum = true
-                        } else {
-                            authState.showRegistration = true
-                        }
+                        showingGlobalForum = true
                     }) {
                         Image(systemName: "globe.americas.fill")
                             .font(.title2)
@@ -436,32 +432,64 @@ struct MessengerView: View {
                 .cornerRadius(10)
                 .padding()
                 
-                // Organizations List
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        ForEach(filteredOrganizations) { org in
-                            OrganizationCard(
-                                organization: org,
-                                organizations: $organizations,
-                                onTap: { selectedOrg = org }
-                            )
-                            .padding(.horizontal)
-                        }
-                    }
-                    .padding(.vertical)
-                }
-                
-                if filteredOrganizations.isEmpty {
+                // Organizations List or Login Prompt
+                if showFollowingOnly && !authState.isLoggedIn {
+                    // Show login prompt when "Following" is selected and user is not logged in
                     Spacer()
                     VStack(spacing: 12) {
-                        Image(systemName: "person.3.fill")
+                        Image(systemName: "lock.fill")
                             .font(.largeTitle)
                             .foregroundColor(.gray)
-                        Text(showFollowingOnly ? "No organizations followed yet" : "No organizations found")
+                        Text("Login required")
                             .font(.headline)
                             .foregroundColor(.secondary)
+                        Text("Sign in to view organizations you're following")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                        
+                        Button(action: {
+                            authState.showRegistration = true
+                        }) {
+                            Text("Sign In")
+                                .fontWeight(.semibold)
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 12)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding(.top, 8)
                     }
+                    .padding()
                     Spacer()
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 12) {
+                            ForEach(filteredOrganizations) { org in
+                                OrganizationCard(
+                                    organization: org,
+                                    organizations: $organizations,
+                                    onTap: { selectedOrg = org }
+                                )
+                                .padding(.horizontal)
+                            }
+                        }
+                        .padding(.vertical)
+                    }
+                    
+                    if filteredOrganizations.isEmpty {
+                        Spacer()
+                        VStack(spacing: 12) {
+                            Image(systemName: "person.3.fill")
+                                .font(.largeTitle)
+                                .foregroundColor(.gray)
+                            Text(showFollowingOnly ? "No organizations followed yet" : "No organizations found")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer()
+                    }
                 }
             }
             .navigationBarHidden(true)
