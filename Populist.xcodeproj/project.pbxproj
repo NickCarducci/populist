@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A37A6A5A2E8DD636002C1584 /* IDWise in Frameworks */ = {isa = PBXBuildFile; productRef = A37A6A592E8DD636002C1584 /* IDWise */; };
+		A37F31892EB827F80027AEF0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A37F31882EB827F80027AEF0 /* FirebaseAuth */; };
+		A37F318B2EB827F80027AEF0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A37F318A2EB827F80027AEF0 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A37A6A5A2E8DD636002C1584 /* IDWise in Frameworks */,
+				A37F31892EB827F80027AEF0 /* FirebaseAuth in Frameworks */,
+				A37F318B2EB827F80027AEF0 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +122,8 @@
 			name = Populist;
 			packageProductDependencies = (
 				A37A6A592E8DD636002C1584 /* IDWise */,
+				A37F31882EB827F80027AEF0 /* FirebaseAuth */,
+				A37F318A2EB827F80027AEF0 /* FirebaseFirestore */,
 			);
 			productName = Populist;
 			productReference = A32053762E7773950003D342 /* Populist.app */;
@@ -203,6 +209,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A37A6A582E8DD636002C1584 /* XCRemoteSwiftPackageReference "idwise-ios-sdk" */,
+				A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A32053772E7773950003D342 /* Products */;
@@ -406,6 +413,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Populist/Populist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7279TDDFK4;
@@ -436,6 +444,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Populist/Populist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7279TDDFK4;
@@ -583,6 +592,14 @@
 				kind = branch;
 			};
 		};
+		A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -590,6 +607,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A37A6A582E8DD636002C1584 /* XCRemoteSwiftPackageReference "idwise-ios-sdk" */;
 			productName = IDWise;
+		};
+		A37F31882EB827F80027AEF0 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		A37F318A2EB827F80027AEF0 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
