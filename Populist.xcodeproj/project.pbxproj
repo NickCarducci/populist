@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		A37A6A5A2E8DD636002C1584 /* IDWise in Frameworks */ = {isa = PBXBuildFile; productRef = A37A6A592E8DD636002C1584 /* IDWise */; };
-		A37F31892EB827F80027AEF0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A37F31882EB827F80027AEF0 /* FirebaseAuth */; };
-		A37F318B2EB827F80027AEF0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A37F318A2EB827F80027AEF0 /* FirebaseFirestore */; };
+		A3A62D1F2EBA8459008B0A69 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A3A62D1E2EBA8459008B0A69 /* FirebaseAuth */; };
+		A3A62D212EBA8459008B0A69 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A3A62D202EBA8459008B0A69 /* FirebaseFirestore */; };
+		A3A62D282EBBD4D4008B0A69 /* ScreenTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3A62D272EBBD4D4008B0A69 /* ScreenTime.framework */; };
+		A3A83F1B2EBF89EB0008CBEE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A3A83F1A2EBF89E00008CBEE /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +35,8 @@
 		A32053762E7773950003D342 /* Populist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Populist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A32053832E77739A0003D342 /* PopulistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PopulistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A320538D2E77739A0003D342 /* PopulistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PopulistUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3A62D272EBBD4D4008B0A69 /* ScreenTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenTime.framework; path = System/Library/Frameworks/ScreenTime.framework; sourceTree = SDKROOT; };
+		A3A83F1A2EBF89E00008CBEE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -59,8 +63,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A37A6A5A2E8DD636002C1584 /* IDWise in Frameworks */,
-				A37F31892EB827F80027AEF0 /* FirebaseAuth in Frameworks */,
-				A37F318B2EB827F80027AEF0 /* FirebaseFirestore in Frameworks */,
+				A3A62D1F2EBA8459008B0A69 /* FirebaseAuth in Frameworks */,
+				A3A62D212EBA8459008B0A69 /* FirebaseFirestore in Frameworks */,
+				A3A62D282EBBD4D4008B0A69 /* ScreenTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,9 +89,11 @@
 		A320536D2E7773940003D342 = {
 			isa = PBXGroup;
 			children = (
+				A3A83F1A2EBF89E00008CBEE /* README.md */,
 				A32053782E7773950003D342 /* Populist */,
 				A32053862E77739A0003D342 /* PopulistTests */,
 				A32053902E77739A0003D342 /* PopulistUITests */,
+				A3A62D262EBBD4D3008B0A69 /* Frameworks */,
 				A32053772E7773950003D342 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,6 +106,14 @@
 				A320538D2E77739A0003D342 /* PopulistUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A3A62D262EBBD4D3008B0A69 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A3A62D272EBBD4D4008B0A69 /* ScreenTime.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,8 +137,8 @@
 			name = Populist;
 			packageProductDependencies = (
 				A37A6A592E8DD636002C1584 /* IDWise */,
-				A37F31882EB827F80027AEF0 /* FirebaseAuth */,
-				A37F318A2EB827F80027AEF0 /* FirebaseFirestore */,
+				A3A62D1E2EBA8459008B0A69 /* FirebaseAuth */,
+				A3A62D202EBA8459008B0A69 /* FirebaseFirestore */,
 			);
 			productName = Populist;
 			productReference = A32053762E7773950003D342 /* Populist.app */;
@@ -209,7 +224,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A37A6A582E8DD636002C1584 /* XCRemoteSwiftPackageReference "idwise-ios-sdk" */,
-				A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				A3A62D1D2EBA8459008B0A69 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A32053772E7773950003D342 /* Products */;
@@ -228,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3A83F1B2EBF89EB0008CBEE /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,7 +608,7 @@
 				kind = branch;
 			};
 		};
-		A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		A3A62D1D2EBA8459008B0A69 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -608,14 +624,14 @@
 			package = A37A6A582E8DD636002C1584 /* XCRemoteSwiftPackageReference "idwise-ios-sdk" */;
 			productName = IDWise;
 		};
-		A37F31882EB827F80027AEF0 /* FirebaseAuth */ = {
+		A3A62D1E2EBA8459008B0A69 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = A3A62D1D2EBA8459008B0A69 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		A37F318A2EB827F80027AEF0 /* FirebaseFirestore */ = {
+		A3A62D202EBA8459008B0A69 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A37F31872EB827F80027AEF0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = A3A62D1D2EBA8459008B0A69 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
